@@ -1,0 +1,42 @@
+﻿@page
+@model IndexModel
+
+<div class="text-center">
+    <label for="Solvabel">Solved: @Model.Solved</label>
+    <label for="Solvabel">Solvable: @Model.Solvabel</label>
+    <form method="post">
+        @{var Board = @Model.Board; }
+
+        @for (int x = 0; x < 9; x++)
+        {
+
+            @for (int y = 0; y < 9; y++)
+            {
+                int? field = 0;
+                @if (Board != null)
+                {
+                    field = Board[x, y];
+                }
+                if (y > 0 && y % 3 == 0)
+                {
+                    <label>|</label>
+                }
+                <input asp-for="@field" type="text" style="width:25px" required />
+            }
+            if (x > 0 && (x == 2|| x == 5))
+            {
+                <br /><label>-------------------------------------------</label>
+            }
+            <br />
+        }
+        <input id="Submit1" type="submit" value="Check" />
+    </form>
+    <form asp-page-handler="Solve" method="post">
+        <button type="submit">Solve</button>
+    </form>
+    <form asp-page-handler="ChangeDifficulty" method="post">
+        <label for="Solvabel">Number of unsolved numbers</label>
+        <input asp-for="@Model.Difficulty" type="number" style="width:50px" min="1" max="80" />
+        <button type="submit">Change Difficulty</button>
+    </form>
+</div>
